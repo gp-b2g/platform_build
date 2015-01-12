@@ -79,12 +79,6 @@ class EdifyGenerator(object):
            ');')
     self.script.append(self._WordWrap(cmd))
 
-  def DeleteFilesRecursive(self, file_list):
-    """Recursively delete all files and folders in file_list."""
-    if not file_list: return
-    cmd = "delete_recursive(" + ",\0".join(['"%s"' % (i,) for i in file_list]) + ");"
-    self.script.append(self._WordWrap(cmd))
-
   def AssertOlderBuild(self, timestamp):
     """Assert that the build on the device is older (or the same as)
     the given timestamp."""
@@ -179,6 +173,12 @@ class EdifyGenerator(object):
     """Delete all files in file_list."""
     if not file_list: return
     cmd = "delete(" + ",\0".join(['"%s"' % (i,) for i in file_list]) + ");"
+    self.script.append(self._WordWrap(cmd))
+
+  def DeleteFilesRecursive(self, file_list):
+    """Recursively delete all files and folders in file_list."""
+    if not file_list: return
+    cmd = "delete_recursive(" + ",\0".join(['"%s"' % (i,) for i in file_list]) + ");"
     self.script.append(self._WordWrap(cmd))
 
   def ApplyPatch(self, srcfile, tgtfile, tgtsize, tgtsha1, *patchpairs):
